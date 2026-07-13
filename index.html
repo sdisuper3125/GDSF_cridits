@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>數位與永續金融研究所 · 畢業門檻檢查</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
   --red:#e2001a; --blue:#005bbb; --blue2:#0057b8; --yellow:#ffcc00;
@@ -42,7 +41,7 @@ header .tag{position:absolute;top:34px;right:0;background:var(--ink);color:var(-
 .rq{display:flex;align-items:center;gap:12px}
 .rq .name{width:150px;font-size:13px;font-weight:700}
 .rq .track{flex:1;height:20px;background:var(--white);border:2px solid var(--ink);position:relative;overflow:hidden}
-.rq .fill{height:100%;background:var(--ink);width:0;transition:width .4s}
+.rq .fill{display:block;height:100%;background:var(--ink);width:0;transition:width .4s}
 .rq.ok .fill{background:var(--blue2)}
 .rq .val{width:66px;text-align:right;font-size:12px;font-weight:700}
 .rq .chk{width:22px;height:22px;flex:none;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
@@ -56,11 +55,12 @@ section{border-bottom:4px solid var(--ink)}
 .sec-note{font-size:12.5px;color:var(--ink);padding:0 0 16px;line-height:1.5;max-width:760px}
 .sec-note b{background:var(--yellow);padding:0 3px}
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:2px solid var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
 @media(max-width:720px){.grid{grid-template-columns:1fr}.dash{grid-template-columns:1fr}.dash .cell{border-right:none;border-bottom:4px solid var(--ink)}}
-.course{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);cursor:pointer;background:var(--paper);transition:background .12s}
-.grid .course:nth-child(2n){border-right:none}
+.course{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;cursor:pointer;background:var(--paper);transition:background .12s}
 .course:hover{background:#ece7dc}
+.filler{background:var(--paper)}
+@media(max-width:720px){.filler{display:none}}
 .course.checked{background:#e7efe4}
 .cbox{width:22px;height:22px;flex:none;border:2px solid var(--ink);margin-top:1px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;background:var(--white)}
 .course.checked .cbox{background:var(--blue2);color:#fff}
@@ -93,6 +93,33 @@ footer{padding:26px 0 0;font-size:11px;color:var(--grey);line-height:1.6}
 .resetbtn{margin-top:14px;background:var(--ink);color:var(--paper);border:none;font-weight:700;
   font-size:12px;letter-spacing:1px;padding:9px 16px;cursor:pointer}
 .resetbtn:hover{background:var(--red)}
+
+/* ---- 手機版排版 ---- */
+@media(max-width:600px){
+  body{padding:0 14px 70px}
+  header{padding:24px 0 18px}
+  header h1{font-size:30px}
+  header .tag{position:static;display:inline-block;margin-top:14px}
+  header .sub{font-size:14px}
+  .sec-head{flex-wrap:wrap;gap:8px 10px}
+  .sec-head h2{font-size:19px}
+  .sec-head .meta{margin-left:0;flex-basis:100%}
+  .dash .cell{padding:20px 16px}
+  .donut-wrap{flex-direction:column;align-items:flex-start;gap:16px}
+  .donut-box{width:150px;height:150px}
+  /* 進度軸改為直式，避免左右擠壓 */
+  .rq{flex-wrap:wrap;gap:6px 10px;padding-bottom:12px;border-bottom:1px dashed #cfc9ba}
+  .rq .name{width:auto;flex:1;font-size:14px}
+  .rq .chk{order:2}
+  .rq .track{order:3;flex-basis:100%;width:100%}
+  .rq .val{order:4;width:auto;text-align:left;color:var(--grey)}
+  /* 建議卡片改為直式堆疊 */
+  .rec{flex-direction:column;align-items:stretch;gap:6px;padding:14px 16px}
+  .rec .day{width:auto;font-size:12px;color:var(--grey)}
+  .rec .rc .rt{font-size:15px}
+  .rec .why{width:auto;text-align:left}
+  .legend{gap:10px 14px}
+}
 </style>
 </head>
 <body>
@@ -100,7 +127,7 @@ footer{padding:26px 0 0;font-size:11px;color:var(--grey);line-height:1.6}
 <header>
   <div class="badge-row"><div class="geo sq"></div><div class="geo ci"></div><div class="geo tr"></div></div>
   <h1>畢業門檻檢查</h1>
-  <div class="sub">Logan 覺得這些修業規則實在有夠煩，索性做了這個小工具 —— 都做了，就順手分享給大家。勾一勾已修的課，就能即時看到 30 學分與兩個微學程的進度，最後還會建議這學期（115-1）該修什麼課。<br><b style="background:var(--yellow);padding:1px 4px">請注意：這不是正式的畢業門檻確認，實際仍以系所公告為準。</b></div>
+  <div class="sub">數金所同學適用，勾選已修過的課程，可以檢視學分進度，以及建議這學期（115-1）該修什麼課。<br><b style="background:var(--yellow);padding:1px 4px">請注意：這不是正式的畢業門檻確認，實際仍以系所公告為準。</b></div>
   <div class="tag">GDSF · 30 CREDITS</div>
 </header>
 
@@ -111,7 +138,11 @@ footer{padding:26px 0 0;font-size:11px;color:var(--grey);line-height:1.6}
   <div class="cell">
     <div class="donut-wrap">
       <div class="donut-box">
-        <canvas id="donut"></canvas>
+        <svg viewBox="0 0 100 100" style="width:100%;height:100%;transform:rotate(-90deg)">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#d9d4c7" stroke-width="15"></circle>
+          <circle id="donutArc" cx="50" cy="50" r="42" fill="none" stroke="#111111" stroke-width="15"
+            stroke-dasharray="0 264" style="transition:stroke-dasharray .55s ease,stroke .3s"></circle>
+        </svg>
         <div class="donut-center"><div class="num" id="creditNum">0</div><div class="lbl">/ 30 學分</div></div>
       </div>
       <div>
@@ -127,7 +158,7 @@ footer{padding:26px 0 0;font-size:11px;color:var(--grey);line-height:1.6}
 </div>
 
 <section id="rec-sec">
-  <div class="sec-head"><span class="idx">R</span><h2>115-1 選課建議</h2><span class="meta">補缺口 · 自動避免衝堂</span></div>
+  <div class="sec-head"><span class="idx">R</span><h2>115-1 選課建議</h2></div>
   <div class="sec-note">依你目前勾選狀況，從 <b>115 學年度第 1 學期課表</b> 推薦最能補齊畢業門檻的課程。系統會自動比對上課時間，若與必修課程衝堂會標記提醒。</div>
   <div class="legend">
     <span><i class="dot" style="background:var(--red)"></i>必修缺口</span>
@@ -219,7 +250,8 @@ function renderSections(){
    sec.groups.forEach(function(gk){
      const g=GROUPS.find(function(x){return x.key===gk;});
      html+='<div class="subhead">'+g.sub+'</div>';
-     COURSES.filter(function(c){return c.g===gk;}).forEach(function(c){
+     const list=COURSES.filter(function(c){return c.g===gk;});
+     list.forEach(function(c){
        const pill = c.req?'<span class="pill req">必修</span>':(gk==='gam'?'':'<span class="pill ele">選修</span>');
        const nowpill = c.now?'<span class="pill now">115-1 開課</span>':'';
        const cr='<span class="pill cr">'+c.cr+' 學分</span>';
@@ -228,6 +260,7 @@ function renderSections(){
          +'<span class="cbody"><span class="ctitle">'+c.t+'</span>'
          +'<span class="cmeta">'+pill+cr+nowpill+'</span></span></label>';
      });
+     if(list.length % 2 === 1){ html+='<div class="filler"></div>'; }
    });
    html+='</div></section>';
  });
@@ -261,17 +294,13 @@ function renderBars(r){
  }).join('');
 }
 
-let donut;
 function renderDonut(total){
- const done=Math.min(total,30), left=Math.max(0,30-total), over=Math.max(0,total-30);
- const data=over>0?[30,over]:[done,left];
- const colors=over>0?['#0057b8','#ffcc00']:['#111111','#d9d4c7'];
- if(typeof Chart!=='undefined'){
-   if(!donut){
-     donut=new Chart(document.getElementById('donut'),{type:'doughnut',
-       data:{datasets:[{data:data,backgroundColor:colors,borderWidth:0}]},
-       options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:400}}});
-   }else{donut.data.datasets[0].data=data;donut.data.datasets[0].backgroundColor=colors;donut.update();}
+ const circ=2*Math.PI*42; // ≈263.9
+ const pct=Math.min(total,30)/30;
+ const arc=document.getElementById('donutArc');
+ if(arc){
+   arc.setAttribute('stroke-dasharray',(pct*circ).toFixed(1)+' '+circ.toFixed(1));
+   arc.setAttribute('stroke', total>=30 ? '#0057b8' : '#111111');
  }
  document.getElementById('creditNum').textContent=total;
 }
