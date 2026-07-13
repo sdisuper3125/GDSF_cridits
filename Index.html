@@ -100,7 +100,7 @@ footer{padding:26px 0 0;font-size:11px;color:var(--grey);line-height:1.6}
 <header>
   <div class="badge-row"><div class="geo sq"></div><div class="geo ci"></div><div class="geo tr"></div></div>
   <h1>畢業門檻檢查</h1>
-  <div class="sub">勾一勾已修的課，就能即時看到 30 學分與兩個微學程的進度，最後還會建議這學期（115-1）該修什麼課。<br><b style="background:var(--yellow);padding:1px 4px">請注意：這不是正式的畢業門檻確認，實際仍以系所公告為準。</b></div>
+  <div class="sub">Logan 覺得這些修業規則實在有夠煩，索性做了這個小工具 —— 都做了，就順手分享給大家。勾一勾已修的課，就能即時看到 30 學分與兩個微學程的進度，最後還會建議這學期（115-1）該修什麼課。<br><b style="background:var(--yellow);padding:1px 4px">請注意：這不是正式的畢業門檻確認，實際仍以系所公告為準。</b></div>
   <div class="tag">GDSF · 30 CREDITS</div>
 </header>
 
@@ -278,7 +278,7 @@ function renderDonut(total){
 
 function pad(n){return String(n).padStart(2,'0');}
 function recommend(r){
- const need=[];
+ let need=[];
  COURSES.forEach(function(c){ if(!c.now||state[c.id])return;
    let tier=null,why='';
    if(c.req){
@@ -289,6 +289,9 @@ function recommend(r){
    else if(r.total<30){tier=3;why='補足總學分';}
    if(tier)need.push({c:c,tier:tier,why:why});
  });
+ // 若還有必修或微學程選修缺口（tier 1、2），就先專注補這些，不顯示「補足總學分」的填充建議
+ const hasCore=need.some(function(n){return n.tier<=2;});
+ if(hasCore){need=need.filter(function(n){return n.tier<=2;});}
  need.sort(function(a,b){return a.tier-b.tier || dayOrder[a.c.now.day]-dayOrder[b.c.now.day] || a.c.now.start-b.c.now.start;});
  const picked=[];
  need.forEach(function(n){
